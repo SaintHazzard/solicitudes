@@ -10,9 +10,9 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
-public class RouterRest {
+public class LoanHandlerRest {
     @Bean
-    public RouterFunction<ServerResponse> routerFunction(Handler handler) {
+    public RouterFunction<ServerResponse> routerFunction(LoanHandler handler) {
         return route(GET("/api/usecase/path"), handler::listenGETUseCase)
                 .andRoute(POST("/api/usecase/otherpath"), handler::listenPOSTUseCase)
                 .and(route(GET("/api/otherusercase/path"), handler::listenGETOtherUseCase));

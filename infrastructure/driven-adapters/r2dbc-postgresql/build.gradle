@@ -15,6 +15,7 @@ dependencies {
 
     implementation 'jakarta.validation:jakarta.validation-api:3.1.1'
 
+    implementation 'io.github.resilience4j:resilience4j-reactor:2.2.0'
 
     // aspectos
     implementation 'org.springframework:spring-context'
