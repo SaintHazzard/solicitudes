@@ -16,6 +16,10 @@ dependencies {
     implementation 'jakarta.validation:jakarta.validation-api:3.1.1'
 
     implementation 'io.github.resilience4j:resilience4j-reactor:2.2.0'
+    
+    // WebClient para comunicación con otros microservicios
+    implementation 'org.springframework:spring-webflux'
+    implementation 'io.projectreactor.netty:reactor-netty'
 
     // aspectos
     implementation 'org.springframework:spring-context'

@@ -14,7 +14,7 @@ public class LoanHandlerRest {
     @Bean
     public RouterFunction<ServerResponse> routerFunction(LoanHandler handler) {
         return route(GET("/api/usecase/path"), handler::listenGETUseCase)
-                .andRoute(POST("/api/usecase/otherpath"), handler::listenPOSTUseCase)
+                .andRoute(POST("/api/v1/solicitudes"), handler::createLoanWithUserValidation)
                 .and(route(GET("/api/otherusercase/path"), handler::listenGETOtherUseCase));
     }
 }

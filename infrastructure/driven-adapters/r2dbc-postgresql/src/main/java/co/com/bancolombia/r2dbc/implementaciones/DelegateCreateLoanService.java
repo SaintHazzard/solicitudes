@@ -2,6 +2,8 @@ package co.com.bancolombia.r2dbc.implementaciones;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import co.com.bancolombia.model.common.CrearStrategyEnum;
 import co.com.bancolombia.model.common.ReactiveTx;
 import co.com.bancolombia.model.common.ResilienceService;
@@ -13,6 +15,7 @@ import reactor.core.publisher.Mono;
 
 
 @RequiredArgsConstructor
+@Service
 public class DelegateCreateLoanService implements CreateLoanPort {
 
 
@@ -45,18 +48,22 @@ public class DelegateCreateLoanService implements CreateLoanPort {
 
   @Override
   public Mono<Void> createMultipleLoan(List<LoanApplication> loanApplications) {
-    return Mono.when(loanApplications.stream()
-        .map(this::create)
-        .toList())
-        .then();
+    return reactiveTx.write(() -> 
+        Mono.when(loanApplications.stream()
+            .map(this::create)
+            .toList())
+            .then()
+    );
   }
 
   @Override
   public Mono<Void> createTwoLoans(LoanApplication loanApplication1, LoanApplication loanApplication2) {
-    return Mono.when(
-        create(loanApplication1),
-        create(loanApplication2)
-    ).then();
+    return reactiveTx.write(() -> 
+        Mono.when(
+            create(loanApplication1),
+            create(loanApplication2)
+        ).then()
+    );
   }
   
 }

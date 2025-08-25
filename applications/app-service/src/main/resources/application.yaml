@@ -29,3 +29,8 @@ adapters:
     database: solicitudes
     username: postgres
     password: 1324
+
+# Configuración para servicios externos
+external:
+  service:
+    base-url: "http://localhost:8090"

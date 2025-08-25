@@ -14,6 +14,7 @@ public class LoanApplication {
   private String email;
   private String stateId;
   private String loanTypeId;
+  private String estadoId;
   private State estado;
   private LoanType loanType;
 }
