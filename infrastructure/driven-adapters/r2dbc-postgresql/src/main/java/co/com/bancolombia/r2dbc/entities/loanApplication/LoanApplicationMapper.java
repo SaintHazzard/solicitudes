@@ -15,7 +15,7 @@ public interface LoanApplicationMapper {
 
   LoanApplicationEntity toEntity(LoanAppliDTO dto);
 
-
+  LoanApplication toDomain(LoanAppliDTO dto);
 
   LoanApplication toDomain(LoanApplicationEntity entity);
 

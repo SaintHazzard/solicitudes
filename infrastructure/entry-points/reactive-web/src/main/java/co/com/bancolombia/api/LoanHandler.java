@@ -1,7 +1,9 @@
 package co.com.bancolombia.api;
 
+import co.com.bancolombia.api.helper.ValidationHandler;
 import co.com.bancolombia.model.loanApplication.LoanApplication;
 import co.com.bancolombia.model.loanApplication.gateways.LoanValidationAndCreationPort;
+import co.com.bancolombia.r2dbc.entities.dto.LoanAppliDTO;
 import co.com.bancolombia.r2dbc.entities.loanApplication.LoanApplicationMapper;
 import co.com.bancolombia.usecase.loan.externalservice.ExternalServiceUseCase;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ public class LoanHandler {
     private final ExternalServiceUseCase externalServiceUseCase;
     private final LoanValidationAndCreationPort validateAndCreateLoanUseCase;
     private final LoanApplicationMapper loanMapper;
+    private final ValidationHandler validationHandler;
 
     public Mono<ServerResponse> listenGETUseCase(ServerRequest serverRequest) {
         return ServerResponse.ok().bodyValue("Hello from GET");
@@ -39,7 +42,9 @@ public class LoanHandler {
      * Endpoint para crear un préstamo con validación de usuario
      */
     public Mono<ServerResponse> createLoanWithUserValidation(ServerRequest serverRequest) {
-        return serverRequest.bodyToMono(LoanApplication.class)
+        return serverRequest.bodyToMono(LoanAppliDTO.class)
+                .flatMap(validationHandler::validate)
+                .map(loanMapper::toDomain)
                 .flatMap(validateAndCreateLoanUseCase::validateUserAndCreateLoan)
                 .map(loanMapper::toDto)
                 .flatMap(loan -> ServerResponse.status(HttpStatus.CREATED)
