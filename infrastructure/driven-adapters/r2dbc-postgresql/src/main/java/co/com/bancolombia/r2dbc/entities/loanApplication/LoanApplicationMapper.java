@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import co.com.bancolombia.model.loanApplication.LoanApplication;
-import co.com.bancolombia.r2dbc.entities.dto.LoanAppliDTO;
+import co.com.bancolombia.r2dbc.entities.loanApplication.dto.LoanAppliDTO;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface LoanApplicationMapper {

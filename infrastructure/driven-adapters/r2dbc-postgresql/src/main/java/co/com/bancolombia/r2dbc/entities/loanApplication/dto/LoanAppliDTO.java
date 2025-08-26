@@ -1,4 +1,4 @@
-package co.com.bancolombia.r2dbc.entities.dto;
+package co.com.bancolombia.r2dbc.entities.loanApplication.dto;
 
 import java.math.BigDecimal;
 

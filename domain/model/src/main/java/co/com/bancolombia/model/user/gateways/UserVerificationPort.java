@@ -14,10 +14,4 @@ public interface UserVerificationPort {
      */
     Mono<Boolean> verifyUserExists(String email);
     
-    /**
-     * Obtiene la calificación crediticia de un usuario
-     * @param email Email del usuario
-     * @return calificación crediticia (0-100)
-     */
-    Mono<Integer> getUserCreditScore(String email);
 }

@@ -37,18 +37,6 @@ public class UserVerificationAdapter implements UserVerificationPort {
         .doOnError(error -> log.error("Error verificando usuario: {}", error.getMessage())));
   }
 
-  @Override
-  public Mono<Integer> getUserCreditScore(String email) {
-    log.info("Obteniendo score crediticio del usuario: {}", email);
-    return resilienceService.executeWithResilience(() -> webClientBuilder.build()
-        .get()
-        .uri(userApiUrl + "/api/v1/users/email", email)
-        .retrieve()
-        .bodyToMono(CreditScoreResponse.class)
-        .map(CreditScoreResponse::score)
-        .doOnError(error -> log.error("Error obteniendo credit score: {}", error.getMessage())));
-  }
-
   // DTOs para las respuestas
   record UserVerificationResponse(String email) {
   }
