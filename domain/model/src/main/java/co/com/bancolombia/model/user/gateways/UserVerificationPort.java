@@ -1,5 +1,6 @@
 package co.com.bancolombia.model.user.gateways;
 
+import co.com.bancolombia.model.user.User;
 import reactor.core.publisher.Mono;
 
 /**
@@ -12,6 +13,6 @@ public interface UserVerificationPort {
      * @param email Email del usuario a verificar
      * @return true si el usuario existe y está activo
      */
-    Mono<Boolean> verifyUserExists(String email);
+    Mono<User> verifyUserExists(String email);
     
 }

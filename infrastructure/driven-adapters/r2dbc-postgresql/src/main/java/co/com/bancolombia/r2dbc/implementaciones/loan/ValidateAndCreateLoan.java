@@ -33,10 +33,13 @@ public class ValidateAndCreateLoan implements LoanValidationAndCreationPort {
         return reactiveTx.write(() -> userVerificationPort.verifyUserExists(loanApplication.getEmail())
                 .flatMap(userExists -> {
                     log.info("Usuario existe: {}", userExists);
-                    if (!userExists) {
+                    if (userExists == null) {
                         return Mono.error(new IllegalArgumentException("El usuario no existe"));
+                    } else if (loanApplication.getEmail() != null
+                            && loanApplication.getEmail().equals(userExists.getEmail())) {
+                        return createLoanPort.processLoanApplicationWithResilience(loanApplication);
                     }
-                    return createLoanPort.processLoanApplicationWithResilience(loanApplication);
+                    return Mono.error(new IllegalArgumentException("La solicitud de préstamo no es válida"));
                 }));
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import co.com.bancolombia.model.common.ResilienceService;
+import co.com.bancolombia.model.user.User;
 import co.com.bancolombia.model.user.gateways.UserVerificationPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class UserVerificationAdapter implements UserVerificationPort {
   private final ResilienceService resilienceService;
 
   @Override
-  public Mono<Boolean> verifyUserExists(String email) {
+  public Mono<User> verifyUserExists(String email) {
     log.info("Verificando si existe usuario con email: {}", email);
 
     // URL correcta según el router function que mostraste
@@ -34,20 +35,18 @@ public class UserVerificationAdapter implements UserVerificationPort {
         .get()
         .uri(uri)
         .retrieve()
-        .bodyToMono(UserVerificationResponse.class)
+        .bodyToMono(User.class)
         .flatMap(response -> {
-          boolean exists = response.email() != null && !response.email().isEmpty();
-          log.info("Respuesta de verificación de usuario: {}, existe: {}", response, exists);
-          return Mono.just(exists);
+          return Mono.just(response);
         })
         .onErrorResume(WebClientResponseException.class, e -> {
           log.error("Error HTTP: {} al verificar usuario: {}", 
                     e.getStatusCode(), e.getResponseBodyAsString());
-          return Mono.just(false);
+          return Mono.just(new User());
         })
         .onErrorResume(e -> {
           log.error("Error verificando usuario: {}", e.getMessage());
-          return Mono.just(false);
+          return Mono.just(new User());
         }));
   }
 
