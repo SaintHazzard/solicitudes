@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8091
 spring:
   application:
     name: "solicitudes"
@@ -11,6 +11,19 @@ spring:
       path: "/h2"
   profiles:
     include: null
+  security:
+    oauth2:
+      client:
+        registration:
+          autenticacion-client:
+            provider: autenticacion-provider
+            client-id: gateway-client
+            client-secret: gateway-client-secret
+            authorization-grant-type: client_credentials
+            scope: read,write
+        provider:
+          autenticacion-provider:
+            token-uri: http://localhost:8090/issuer/token
 management:
   endpoints:
     web:
@@ -34,3 +47,4 @@ adapters:
 external:
   service:
     base-url: "http://localhost:8090"
+    user-api-url: "http://localhost:8090"

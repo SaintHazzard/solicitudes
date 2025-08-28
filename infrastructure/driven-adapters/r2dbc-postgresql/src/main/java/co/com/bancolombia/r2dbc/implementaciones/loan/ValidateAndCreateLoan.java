@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class ValidateAndCreateLoanUseCase implements LoanValidationAndCreationPort {
+public class ValidateAndCreateLoan implements LoanValidationAndCreationPort {
 
     private final UserVerificationPort userVerificationPort;
     private final CreateLoanPort createLoanPort;
